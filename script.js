@@ -2,7 +2,8 @@
 let moods = JSON.parse(localStorage.getItem('moods')) || [];
 
 function saveMood(emoji, label) {
-  const note = document.getElementById('note').value;
+  const noteInput = document.getElementById('note');
+  const note = noteInput.value;
   const entry = {
     emoji,
     label,
@@ -12,7 +13,7 @@ function saveMood(emoji, label) {
   
   moods.unshift(entry); // Add to top
   localStorage.setItem('moods', JSON.stringify(moods));
-  document.getElementById('note').value = '';
+  noteInput.value = '';
   render();
 }
 
