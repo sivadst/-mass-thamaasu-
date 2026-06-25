@@ -18,6 +18,8 @@ function saveMood(emoji, label) {
 
 function render() {
   const container = document.getElementById('history');
+  if (!container) return; // Guard against running before DOM is loaded
+
   if (moods.length === 0) {
     container.innerHTML = '<p style="color:#888;text-align:center">No entries yet</p>';
     return;
@@ -36,3 +38,12 @@ function render() {
 }
 
 render();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    render,
+    saveMood,
+    getMoods: () => moods,
+    setMoods: (newMoods) => { moods = newMoods; }
+  };
+}
