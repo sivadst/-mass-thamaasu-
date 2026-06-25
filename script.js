@@ -10,7 +10,7 @@ function saveMood(emoji, label) {
     time: new Date().toLocaleString()
   };
   
-  moods.unshift(entry); // Add to top
+  moods.push(entry); // Add to end (O(1))
   localStorage.setItem('moods', JSON.stringify(moods));
   document.getElementById('note').value = '';
   render();
@@ -23,7 +23,10 @@ function render() {
     return;
   }
   
-  container.innerHTML = moods.map(m => `
+  let html = '';
+  for (let i = moods.length - 1; i >= 0; i--) {
+    const m = moods[i];
+    html += `
     <div class="entry">
       <div>
         <span class="emoji">${m.emoji}</span>
@@ -32,7 +35,9 @@ function render() {
       </div>
       <span class="time">${m.time}</span>
     </div>
-  `).join('');
+  `;
+  }
+  container.innerHTML = html;
 }
 
 render();
