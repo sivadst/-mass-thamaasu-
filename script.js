@@ -1,6 +1,16 @@
 // Load existing moods or start empty
 let moods = JSON.parse(localStorage.getItem('moods')) || [];
 
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function saveMood(emoji, label) {
   const note = document.getElementById('note').value;
   const entry = {
@@ -26,11 +36,11 @@ function render() {
   container.innerHTML = moods.map(m => `
     <div class="entry">
       <div>
-        <span class="emoji">${m.emoji}</span>
-        <strong>${m.label}</strong>
-        ${m.note ? '— ' + m.note : ''}
+        <span class="emoji">${escapeHTML(m.emoji)}</span>
+        <strong>${escapeHTML(m.label)}</strong>
+        ${m.note ? '— ' + escapeHTML(m.note) : ''}
       </div>
-      <span class="time">${m.time}</span>
+      <span class="time">${escapeHTML(m.time)}</span>
     </div>
   `).join('');
 }
